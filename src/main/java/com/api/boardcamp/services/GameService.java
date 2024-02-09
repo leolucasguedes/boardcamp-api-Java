@@ -37,11 +37,11 @@ public class GameService {
         game.setPricePerDay(gameDTO.getPricePerDay());
 
         if (!categoryRepository.existsById(gameDTO.getCategoryId())) {
-            throw new CategoryNotFoundException("Categoria inexistente");
+            throw new CategoryNotFoundException("Category not found");
         }
 
         if (gameRepository.existsByNameIgnoreCase(gameDTO.getName())) {
-            throw new GameAlreadyExistsException("Jogo já existente");
+            throw new GameAlreadyExistsException("Game alrealdy exists");
         }
 
         gameRepository.save(game);
