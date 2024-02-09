@@ -7,7 +7,6 @@ public class ExceptionResponse {
         this.message = message;
     }
 
-    // Getters and setters
     public String getMessage() {
         return message;
     }
