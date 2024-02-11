@@ -19,8 +19,12 @@ public class Game {
     @Column(nullable = false)
     private Integer stockTotal;
 
-    @Column(name = "category_id", nullable = false)
+    @Column(name = "category_id")
     private Long categoryId;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Category category;
 
     @Column(nullable = false)
     private Double pricePerDay;
@@ -36,7 +40,6 @@ public class Game {
         this.pricePerDay = pricePerDay;
     }
 
-    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -69,8 +72,8 @@ public class Game {
         this.stockTotal = stockTotal;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
+    public Category getCategory() {
+        return category;
     }
 
     public void setCategoryId(Long categoryId) {

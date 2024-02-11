@@ -1,7 +1,6 @@
 package com.api.boardcamp.models.entities;
 
 import javax.persistence.*;
-
 import java.util.Date;
 
 @Entity
@@ -15,8 +14,16 @@ public class Rental {
     @Column(name = "customer_id")
     private Long customerId;
 
+    @ManyToOne
+    @JoinColumn(name = "customer_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Customer customer;
+
     @Column(name = "game_id")
     private Long gameId;
+
+    @ManyToOne
+    @JoinColumn(name = "game_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Game game;
 
     @Column(name = "days_rented")
     private Integer daysRented;
@@ -55,16 +62,16 @@ public class Rental {
         this.id = id;
     }
 
-    public Long getCustomerId() {
-        return customerId;
+    public Customer getCustomer() {
+        return customer;
     }
 
     public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
 
-    public Long getGameId() {
-        return gameId;
+    public Game getGame() {
+        return game;
     }
 
     public void setGameId(Long gameId) {

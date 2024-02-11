@@ -26,14 +26,10 @@ public class RentalService {
     }
 
     public RentalDTO saveRental(RentalDTO rentalDTO) {
-        Rental rental = new Rental(
-                rentalDTO.getCustomerId(),
-                rentalDTO.getGameId(),
-                rentalDTO.getDaysRented(),
-                null,
-                null,
-                null,
-                null);
+        Rental rental = new Rental();
+        rental.setCustomerId(rentalDTO.getCustomerId());
+        rental.setGameId(rentalDTO.getGameId());
+        rental.setDaysRented(rentalDTO.getDaysRented());
         rental = rentalRepository.save(rental);
         return convertToDTO(rental);
     }
@@ -49,7 +45,7 @@ public class RentalService {
                 Date rentDate = rental.getRentDate();
                 long rentTimeMillis = rentDate.getTime();
                 long returnTimeMillis = returnDate.getTime();
-                long dayInMillis = 24 * 60 * 60 * 1000;
+                long dayInMillis = 24L * 60 * 60 * 1000;
                 int rentedDays = rental.getDaysRented();
                 int delayDays = (int) ((returnTimeMillis - (rentTimeMillis + (dayInMillis * rentedDays)))
                         / dayInMillis);
@@ -73,8 +69,8 @@ public class RentalService {
     private RentalDTO convertToDTO(Rental rental) {
         return new RentalDTO(
                 rental.getId(),
-                rental.getCustomerId(),
-                rental.getGameId(),
+                rental.getCustomer().getId(),
+                rental.getGame().getId(),
                 rental.getDaysRented());
     }
 }

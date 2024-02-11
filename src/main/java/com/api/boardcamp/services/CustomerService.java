@@ -49,7 +49,7 @@ public class CustomerService {
         existingCustomer.setName(customerDTO.getName());
         existingCustomer.setPhone(customerDTO.getPhone());
         existingCustomer.setCpf(customerDTO.getCpf());
-        existingCustomer.setBirthday(customerDTO.getBirthday());
+        existingCustomer.setBirthDate(customerDTO.getBirthday());
 
         if (!existingCustomer.getCpf().equals(customerDTO.getCpf()) &&
                 customerRepository.findByCpf(customerDTO.getCpf()).isPresent()) {
