@@ -7,7 +7,7 @@ import jakarta.validation.Valid;
 import com.api.boardcamp.models.dto.CustomerDTO;
 import com.api.boardcamp.models.entities.Customer;
 import com.api.boardcamp.services.CustomerService;
-import com.api.boardcamp.exceptions.CustomerNotFoundException;
+import com.api.boardcamp.exceptions.NotFoundException;
 import com.api.boardcamp.exceptions.CustomerAlreadyExistsException;
 import java.util.List;
 
@@ -39,7 +39,7 @@ public class CustomerController {
         try {
             Customer customer = customerService.getCustomerById(id);
             return ResponseEntity.ok(customer);
-        } catch (CustomerNotFoundException e) {
+        } catch (NotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
@@ -63,7 +63,7 @@ public class CustomerController {
             return ResponseEntity.ok().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
-        } catch (CustomerNotFoundException e) {
+        } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (CustomerAlreadyExistsException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();

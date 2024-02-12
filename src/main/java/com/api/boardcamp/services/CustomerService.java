@@ -3,7 +3,7 @@ package com.api.boardcamp.services;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import com.api.boardcamp.exceptions.CustomerAlreadyExistsException;
-import com.api.boardcamp.exceptions.CustomerNotFoundException;
+import com.api.boardcamp.exceptions.NotFoundException;
 import com.api.boardcamp.models.dto.CustomerDTO;
 import com.api.boardcamp.models.entities.Customer;
 import com.api.boardcamp.repositories.CustomerRepository;
@@ -23,7 +23,7 @@ public class CustomerService {
 
     public Customer getCustomerById(Long id) {
         return customerRepository.findById(id)
-                .orElseThrow(() -> new CustomerNotFoundException("Customer not found"));
+                .orElseThrow(() -> new NotFoundException("Customer not found"));
     }
 
     public List<Customer> getCustomersByCpf(String cpf) {
@@ -33,9 +33,7 @@ public class CustomerService {
     public void addCustomer(CustomerDTO customerDTO) {
         Customer customer = new Customer(
                 customerDTO.getName(),
-                customerDTO.getPhone(),
-                customerDTO.getCpf(),
-                customerDTO.getBirthday());
+                customerDTO.getCpf());
         if (customerRepository.findByCpf(customer.getCpf()).isPresent()) {
             throw new CustomerAlreadyExistsException("Customer with the same CPF already exists");
         }
@@ -44,12 +42,10 @@ public class CustomerService {
 
     public void updateCustomer(Long id, CustomerDTO customerDTO) {
         Customer existingCustomer = customerRepository.findById(id)
-                .orElseThrow(() -> new CustomerNotFoundException("Customer not found"));
+                .orElseThrow(() -> new NotFoundException("Customer not found"));
 
         existingCustomer.setName(customerDTO.getName());
-        existingCustomer.setPhone(customerDTO.getPhone());
         existingCustomer.setCpf(customerDTO.getCpf());
-        existingCustomer.setBirthDate(customerDTO.getBirthday());
 
         if (!existingCustomer.getCpf().equals(customerDTO.getCpf()) &&
                 customerRepository.findByCpf(customerDTO.getCpf()).isPresent()) {

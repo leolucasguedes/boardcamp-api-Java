@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
+import com.api.boardcamp.exceptions.NotFoundException;
 import com.api.boardcamp.models.dto.GameDTO;
 import com.api.boardcamp.models.entities.Game;
 import com.api.boardcamp.services.GameService;
@@ -21,11 +22,21 @@ public class GameController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Game>> getGames(@RequestParam(required = false) String name) {
+    public ResponseEntity<List<Game>> getGames() {
         try {
-            return ResponseEntity.ok(gameService.getGames(name));
+            return ResponseEntity.ok(gameService.getGames());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Game> getGameById(@PathVariable Long id) {
+        try {
+            Game game = gameService.getGameById(id);
+            return ResponseEntity.ok(game);
+        } catch (NotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 

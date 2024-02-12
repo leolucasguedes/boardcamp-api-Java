@@ -3,13 +3,11 @@ package com.api.boardcamp.controllers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import com.api.boardcamp.exceptions.NotFoundException;
 import com.api.boardcamp.models.dto.RentalDTO;
 import com.api.boardcamp.models.entities.Rental;
 import com.api.boardcamp.services.RentalService;
-
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/rentals")
@@ -29,9 +27,12 @@ public class RentalController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Rental> getRentalById(@PathVariable Long id) {
-        Optional<Rental> rental = rentalService.getRentalById(id);
-        return rental.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        try {
+            Rental rental = rentalService.getRentalById(id);
+            return ResponseEntity.ok(rental);
+        } catch (NotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
     @PostMapping

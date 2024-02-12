@@ -13,28 +13,19 @@ public class GameDTO {
 
     @NotNull(message = "O estoque total é obrigatório")
     @Min(value = 1, message = "O estoque total deve ser maior que 0")
-    private Integer stockTotal;
-
-    @NotNull(message = "O ID da categoria é obrigatório")
-    @Positive(message = "O ID da categoria deve ser maior que 0")
-    private Long categoryId;
+    private int stockTotal;
 
     @NotNull(message = "O preço por dia é obrigatório")
     @Positive(message = "O preço por dia deve ser maior que 0")
     private Double pricePerDay;
 
-    public GameDTO() {
-    }
-
-    public GameDTO(String name, String image, Integer stockTotal, Long categoryId, Double pricePerDay) {
+    public GameDTO(String name, String image, int stockTotal, Double pricePerDay) {
         this.name = name;
         this.image = image;
         this.stockTotal = stockTotal;
-        this.categoryId = categoryId;
         this.pricePerDay = pricePerDay;
     }
 
-    // Getters e Setters
     public String getName() {
         return name;
     }
@@ -57,14 +48,6 @@ public class GameDTO {
 
     public void setStockTotal(Integer stockTotal) {
         this.stockTotal = stockTotal;
-    }
-
-    public Long getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
     }
 
     public Double getPricePerDay() {
