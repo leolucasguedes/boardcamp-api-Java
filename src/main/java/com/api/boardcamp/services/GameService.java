@@ -26,7 +26,7 @@ public class GameService {
                 .orElseThrow(() -> new NotFoundException("Game not found"));
     }
 
-    public void addGame(GameDTO gameDTO) {
+    public Game addGame(GameDTO gameDTO) {
         Game game = new Game();
         game.setName(gameDTO.getName());
         game.setImage(gameDTO.getImage());
@@ -37,6 +37,6 @@ public class GameService {
             throw new GameAlreadyExistsException("Game alrealdy exists");
         }
 
-        gameRepository.save(game);
+        return gameRepository.save(game);
     }
 }

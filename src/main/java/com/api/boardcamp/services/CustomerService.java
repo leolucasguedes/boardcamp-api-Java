@@ -30,17 +30,17 @@ public class CustomerService {
         return customerRepository.findByCpfStartingWith(cpf);
     }
 
-    public void addCustomer(CustomerDTO customerDTO) {
+    public Customer addCustomer(CustomerDTO customerDTO) {
         Customer customer = new Customer(
                 customerDTO.getName(),
                 customerDTO.getCpf());
         if (customerRepository.findByCpf(customer.getCpf()).isPresent()) {
             throw new CustomerAlreadyExistsException("Customer with the same CPF already exists");
         }
-        customerRepository.save(customer);
+        return customerRepository.save(customer);
     }
 
-    public void updateCustomer(Long id, CustomerDTO customerDTO) {
+    public Customer updateCustomer(Long id, CustomerDTO customerDTO) {
         Customer existingCustomer = customerRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Customer not found"));
 
@@ -52,6 +52,6 @@ public class CustomerService {
             throw new CustomerAlreadyExistsException("Customer with the same CPF already exists");
         }
 
-        customerRepository.save(existingCustomer);
+        return customerRepository.save(existingCustomer);
     }
 }

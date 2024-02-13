@@ -41,10 +41,10 @@ public class GameController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> postGame(@Valid @RequestBody GameDTO gameDTO) {
+    public ResponseEntity<Game> postGame(@Valid @RequestBody GameDTO gameDTO) {
         try {
-            gameService.addGame(gameDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            Game createdGame = gameService.addGame(gameDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdGame);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         } catch (Exception e) {

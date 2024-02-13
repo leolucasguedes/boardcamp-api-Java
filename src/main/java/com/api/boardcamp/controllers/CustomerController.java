@@ -45,10 +45,10 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> postCustomers(@Valid @RequestBody CustomerDTO customerDTO) {
+    public ResponseEntity<Customer> postCustomers(@Valid @RequestBody CustomerDTO customerDTO) {
         try {
-            customerService.addCustomer(customerDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            Customer customerCreated = customerService.addCustomer(customerDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(customerCreated);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         } catch (CustomerAlreadyExistsException e) {
@@ -57,10 +57,10 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> putCustomers(@PathVariable Long id, @RequestBody CustomerDTO customerDTO) {
+    public ResponseEntity<Customer> putCustomers(@PathVariable Long id, @RequestBody CustomerDTO customerDTO) {
         try {
-            customerService.updateCustomer(id, customerDTO);
-            return ResponseEntity.ok().build();
+            Customer customerUpdated = customerService.updateCustomer(id, customerDTO);
+            return ResponseEntity.ok().body(customerUpdated);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         } catch (NotFoundException e) {
